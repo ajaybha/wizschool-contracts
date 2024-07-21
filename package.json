@@ -1,0 +1,21 @@
+{
+  "name": "wizschool-contracts",
+  "version": "1.0.0",
+  "description": "Smart Contracts for wizard school asset collections",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write --plugin=prettier-plugin-solidity 'contracts/**/*.sol'"
+  },
+  "author": "ajaybha",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.5",
+    "hardhat": "^2.22.6"
+  },
+  "dependencies": {
+    "@imtbl/contracts": "^2.2.7",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5"
+  }
+}
