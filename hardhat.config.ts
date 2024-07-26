@@ -2,6 +2,9 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-ignition-ethers";
 
+// import custom tasks
+import "./scripts/common";
+
 const config: HardhatUserConfig = {
   solidity: {
     compilers: [
