@@ -4,6 +4,9 @@ import "@nomicfoundation/hardhat-ignition-ethers";
 
 // import custom tasks
 import "./scripts/common";
+import "./scripts/wizschool-tasks";
+import "./scripts/saleminter-tasks.ts";
+import { account_pk, node_url } from "./utils/network";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -34,10 +37,28 @@ const config: HardhatUserConfig = {
       gas: 12000000,
       blockGasLimit: 0x1fffffffffffff,
       allowUnlimitedContractSize: true
+    },
+    localhost: {
+      chainId: 31337,
+      url: node_url('localhost'),
+      allowUnlimitedContractSize: true
+    },
+    testnet: {
+      chainId: 13473,
+      url: node_url('testnet'),
+      /*accounts:[
+        account_pk('deployer'),
+        account_pk('seller')
+      ],*/
+    }
+  },
+  etherscan: {
+    apiKey: {
+      
     }
   }
-    
   
+
 };
 
 export default config;
