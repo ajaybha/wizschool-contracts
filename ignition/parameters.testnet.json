@@ -1,0 +1,10 @@
+{
+    "WizschoolBroomModule": {
+        "name": "Wizschool Broom NFT",
+        "symbol": "WSB",
+        "baseURI": "https://ajaybha.github.io/wizschool-broom/tokens/",
+        "contractURI": "https://ajaybha.github.io/wizschool-broom/collection.json",
+        "allawList": "0x6b969FD89dE634d8DE3271EbE97734FEFfcd58eE",
+        "feeNumerator": "5"        
+    }
+}

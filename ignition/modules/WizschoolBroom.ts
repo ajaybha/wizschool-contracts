@@ -6,23 +6,18 @@ const COLLECTION_NAME:string = "Wizschool Broom for Wizards";
 const SYMBOL:string = "WBW";
 const BASE_URI:string = "https://ajaybha.github.io/";
 const CONTRACT_URI:string = "https://ajaybha.github.io/";
+const ALLOW_LIST:string = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const FEE_NUMERATOR = "5";
 
 
 const WizschoolBroomModule = buildModule("WizschoolBroomModule", (m) => {
-    
-    /*
-    */
-    // when deploying on local network, use a mock contract for allowlist
-    const {mockAllowlist} = m.useModule(MockAllowlistModule);
 
-       
     /*
     Instead of named accounts, we get the configured accounts through the getAccount method
     */
-    const owner = m.getAccount(0);
+    const owner = m.getAccount(0); // from the hardhat config,network section [accounts]
     const royaltyReceiver = m.getAccount(1);
-    //const owner = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";     
+    
     /*
     Get parameters from the param file
     */
@@ -30,6 +25,7 @@ const WizschoolBroomModule = buildModule("WizschoolBroomModule", (m) => {
     const collectionSymbol = m.getParameter("symbol", SYMBOL);
     const baseUri = m.getParameter("baseURI", BASE_URI);
     const contractURI = m.getParameter("contractURI", CONTRACT_URI);
+    const allowList = m.getParameter("allowList",ALLOW_LIST )
     const feeNumerator = m.getParameter("feeNumerator",FEE_NUMERATOR );
 
     const wizschoolBroom = m.contract("WizschoolBroomERC721", [
@@ -38,7 +34,7 @@ const WizschoolBroomModule = buildModule("WizschoolBroomModule", (m) => {
         collectionSymbol,
         baseUri,
         contractURI,
-        mockAllowlist,
+        allowList,
         royaltyReceiver,
         feeNumerator
     ]);

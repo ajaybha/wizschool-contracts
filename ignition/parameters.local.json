@@ -4,8 +4,7 @@
         "symbol": "WSB",
         "baseURI": "https://ajaybha.github.io/wizschool-broom/tokens/",
         "contractURI": "https://ajaybha.github.io/wizschool-broom/collection.json",
-        "royaltyAllowlist": "0x6b969FD89dE634d8DE3271EbE97734FEFfcd58eE",
-        "feeNumerator": "0000000000000000000n"
-        
+        "allowList": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "feeNumerator": "5"        
     }
 }

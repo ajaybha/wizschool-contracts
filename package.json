@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition-ethers": "^0.15.5",
+    "@nomicfoundation/hardhat-verify": "^2.0.8",
     "hardhat": "^2.22.6"
   },
   "dependencies": {

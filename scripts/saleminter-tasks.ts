@@ -11,7 +11,7 @@ import { PrimarySaleMinter } from "../typechain-types";
 
 
 const contractName = "PrimarySaleMinter";
-const defaultContractAddr = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
+const defaultContractAddr = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
 function getContractAddress(networkName:string, contractPrefix:string) : string {
     return (contract_addr(contractPrefix, networkName)) ? contract_addr(contractPrefix, networkName) : defaultContractAddr;
@@ -75,15 +75,17 @@ task("ps-get-sale", "Get the details of the private sale")
         const contractAddr: string = getContractAddress(hre.network.name, "PSM");
         const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
         // get the primary sale 
-        const {startTime, endTime, supply, price, maxNFTAllowed} = await contract.saleConfig();
-        console.log(`Private Sale:
+        console.log("getting sale config...");
+        const [startTime, endTime,supply, price, maxNFTAllowed] = await contract.saleConfig();
+        console.log("printing sale details...");
+        console.log(`Private Sale:              
             startTime:${new Date(Number(startTime*1000n))}
-            endTime:${new Date(Number(endTime*1000n))}
-            supply:${supply}            
+            endTime:${new Date(Number(endTime*1000n))}          
+            supply:${Number(supply)}            
             unitPrice:${hre.ethers.formatEther(price)}
-            waletLimit:${maxNFTAllowed}`);
-        const saleCount = await contract.totalSaleCount;
-        console.log(`Total Sales:${saleCount}`);        
+            waletLimit:${Number(maxNFTAllowed)}`);
+        const saleCount = await contract.totalSaleCount();
+        console.log(`Total Sales:${(saleCount)}`);        
     });
 task("ps-get-sale-by-account", "Get the details of the sale for given address")
     .addParam("address", "the account for which sale data is desired")
@@ -93,7 +95,7 @@ task("ps-get-sale-by-account", "Get the details of the sale for given address")
         const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
         // get the address for which sales is requested
         const buyerAddr: string = (taskArgs.minter) ? taskArgs.minter : deployer.address;
-        const saleCount = await contract.totalSaleCount;
+        const saleCount = await contract.totalSaleCount();
         console.log(`Total Sales:${saleCount}`); 
         const accountSaleCount = await contract.accountSaleCount(buyerAddr);
         console.log(`Sales for ${buyerAddr} :${accountSaleCount}`);

@@ -10,7 +10,7 @@ import { contract_addr } from "../utils/network";
 import { WizschoolBroomERC721 } from "../typechain-types";
 
 const contractName = "WizschoolBroomERC721";
-const defaultContractAddr = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
+const defaultContractAddr = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
 
 function getContractAddress(networkName:string, contractPrefix:string) : string {
