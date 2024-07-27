@@ -11,7 +11,7 @@ import { PrimarySaleMinter } from "../typechain-types";
 
 
 const contractName = "PrimarySaleMinter";
-const defaultContractAddr = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const defaultContractAddr = "";
 
 function getContractAddress(networkName:string, contractPrefix:string) : string {
     return (contract_addr(contractPrefix, networkName)) ? contract_addr(contractPrefix, networkName) : defaultContractAddr;
@@ -26,11 +26,23 @@ task("ps-grant-seller-role", "set the seller role to given address")
         const contractAddr: string = getContractAddress(hre.network.name, "PSM");
         const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
         // add to seller role
-        const sellerAddr: string = (taskArgs.minter) ? taskArgs.minter : deployer.address;
+        const sellerAddr: string = (taskArgs.seller) ? taskArgs.seller : deployer.address;
         const tx = await contract.grantRole(SELLER_ROLE, sellerAddr);
         console.log(`Transaction Hash: ${tx.hash}`);
     });
+task("ps-check-seller-role", "get the seller role")
+    .addParam("seller", "the address of the seller")
+    .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment){
+        const SELLER_ROLE = hre.ethers.id("SELLER_ROLE");
+        const [deployer] = await hre.ethers.getSigners();       
+        const contractAddr: string = getContractAddress(hre.network.name, "PSM");
+        const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
 
+        // check if seller role
+        const sellerAddr: string = (taskArgs.seller) ? taskArgs.seller : deployer.address;
+        const isSellerRole:boolean = await contract.hasRole(SELLER_ROLE, sellerAddr);
+        isSellerRole ? console.log(`The addr:${sellerAddr} is in seller-role`) : console.log(`The addr:${sellerAddr} is not seller-role`);
+    });
 task("ps-revoke-seller-role", "revoke the seller role for given address")
     .addParam("seller", "the address of the seller")
     .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment) {
@@ -40,7 +52,7 @@ task("ps-revoke-seller-role", "revoke the seller role for given address")
         const contractAddr: string = getContractAddress(hre.network.name, "PSM");
         const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
         // add to seller role
-        const sellerAddr: string = (taskArgs.minter) ? taskArgs.minter : deployer.address;
+        const sellerAddr: string = (taskArgs.seller) ? taskArgs.seller : deployer.address;
         const tx = await contract.revokeRole(SELLER_ROLE, sellerAddr);
         console.log(`Transaction Hash: ${tx.hash}`);
     });
@@ -54,14 +66,16 @@ task("ps-config-sale", "configure the NFT sale")
     .addOptionalParam("limit", "max mint allowed per wallet", 10, types.int)
     .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment) {
         const [deployer] = await hre.ethers.getSigners();        
-
-        const contractAddr: string = getContractAddress(hre.network.name, "PSM");
-        const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
         // get the sender-signer (from specified address) to invoke the transaction
-        const sellerAddr: string = (taskArgs.minter) ? taskArgs.minter : deployer.address;
-        const sellerSigner:Signer = await hre.ethers.getSigner(sellerAddr);
+        const sellerAddr: string = (taskArgs.seller) ? taskArgs.seller : deployer.address;
+        const sellerSigner:Signer = await hre.ethers.getSigner(sellerAddr);        
+        const contractAddr: string = getContractAddress(hre.network.name, "PSM");
+        // contract instantion based on signer-address as invoker
+        const contract: PrimarySaleMinter = await 
+            hre.ethers.getContractAt(contractName, contractAddr, sellerSigner) as PrimarySaleMinter;
+        
         // set the primary sale
-        const tx = await contract.connect(sellerSigner).setPrimarySaleConfig(
+        const tx = await contract.setPrimarySaleConfig(
             BigInt(taskArgs.start), 
             BigInt(taskArgs.end),
             BigInt(taskArgs.supply),
@@ -94,7 +108,7 @@ task("ps-get-sale-by-account", "Get the details of the sale for given address")
         const contractAddr: string = getContractAddress(hre.network.name, "PSM");
         const contract: PrimarySaleMinter = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as PrimarySaleMinter;
         // get the address for which sales is requested
-        const buyerAddr: string = (taskArgs.minter) ? taskArgs.minter : deployer.address;
+        const buyerAddr: string = (taskArgs.address) ? taskArgs.address : deployer.address;
         const saleCount = await contract.totalSaleCount();
         console.log(`Total Sales:${saleCount}`); 
         const accountSaleCount = await contract.accountSaleCount(buyerAddr);

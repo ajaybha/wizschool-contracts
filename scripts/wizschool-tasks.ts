@@ -10,7 +10,7 @@ import { contract_addr } from "../utils/network";
 import { WizschoolBroomERC721 } from "../typechain-types";
 
 const contractName = "WizschoolBroomERC721";
-const defaultContractAddr = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const defaultContractAddr = "";
 
 
 function getContractAddress(networkName:string, contractPrefix:string) : string {
@@ -20,12 +20,10 @@ function getContractAddress(networkName:string, contractPrefix:string) : string 
 task("wb-grant-mintrole", "set the minter role to given address")
     .addParam("minter", "the address of the minter")
     .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment) {
-        // this const is defined as byte32 string in solidity, if it was keccak256 hashed then uncomment the next line 
-        // ethers.keccak256(ethers.toUtf8Bytes("MINTER_ROLE"));
-        //const MINTER_ROLE = hre.ethers.encodeBytes32String("MINTER_ROLE");
         const [deployer] = await hre.ethers.getSigners();        
 
         const contractAddr: string = getContractAddress(hre.network.name, "WBW");
+        console.log(`Contract Addres:${contractAddr}`);
         const contract: WizschoolBroomERC721 = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as WizschoolBroomERC721;
         // add to minter role
         const minterAddr: string = (taskArgs.minter) ? taskArgs.minter : deployer.address;
@@ -36,9 +34,6 @@ task("wb-grant-mintrole", "set the minter role to given address")
 task("wb-revoke-mintrole", "reovke the minter role for given address")
     .addParam("minter", "the address of the minter")
     .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment) {
-        // this const is defined as byte32 string in solidity, if it was keccak256 hashed then uncomment the next line 
-        // ethers.keccak256(ethers.toUtf8Bytes("MINTER_ROLE"));
-        //const MINTER_ROLE = hre.ethers.encodeBytes32String("MINTER_ROLE");
         const [deployer] = await hre.ethers.getSigners();        
 
         const contractAddr: string = getContractAddress(hre.network.name, "WBW");
@@ -64,6 +59,16 @@ task("wb-set-baseuri", "updates the metadata URI endpoint")
             console.log('uri parameter is not specified.');
         }
     });
+
+task("wb-get-baseuri", "gets the metadata URI endpoint")
+    .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment) {
+        const [deployer] = await hre.ethers.getSigners(); 
+        const contractAddr: string = getContractAddress(hre.network.name, "WBW");
+        const contract: WizschoolBroomERC721 = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as WizschoolBroomERC721;
+
+        const baseuri = await contract.baseURI();
+        console.log(`baseURI for contract ${contractAddr} is [${baseuri}]`);
+    });
 task("wb-set-contracturi", "updates the conract metadata URI endpoint")
     .addParam("uri", "the contract metadata URI")
     .setAction(async function (taskArgs, hre: HardhatRuntimeEnvironment) {
@@ -78,4 +83,13 @@ task("wb-set-contracturi", "updates the conract metadata URI endpoint")
         } else {
             console.log('uri parameter is not specified.');
         }
+    });
+    task("wb-get-contracturi", "gets the contract metadata URI endpoint")
+    .setAction(async function(taskArgs, hre:HardhatRuntimeEnvironment) {
+        const [deployer] = await hre.ethers.getSigners(); 
+        const contractAddr: string = getContractAddress(hre.network.name, "WBW");
+        const contract: WizschoolBroomERC721 = await hre.ethers.getContractAt(contractName, contractAddr, deployer) as WizschoolBroomERC721;
+
+        const cnturi = await contract.contractURI;
+        console.log(`contractURI for contract ${contractAddr} is [${cnturi}]`);
     });

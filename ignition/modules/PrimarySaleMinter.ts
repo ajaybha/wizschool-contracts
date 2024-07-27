@@ -14,7 +14,6 @@ const PrimarySaleMinterModule = buildModule("PrimarySaleMinterModule", (m) => {
     Instead of named accounts, we get the configured accounts through the getAccount method
     */
     const owner = m.getAccount(0);
-    const royaltyReceiver = m.getAccount(1);   
     /*
     Get parameters from the param file
     */

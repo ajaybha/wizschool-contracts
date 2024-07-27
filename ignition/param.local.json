@@ -1,7 +1,7 @@
 {
     "WizschoolBroomModule": {
-        "name": "Wizschool Broom NFT",
-        "symbol": "WSB",
+        "name": "Wizschool Broom NFT  Collection for Wizards",
+        "symbol": "WBW",
         "baseURI": "https://ajaybha.github.io/wizschool-broom/tokens/",
         "contractURI": "https://ajaybha.github.io/wizschool-broom/collection.json",
         "allowList": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
