@@ -1,4 +1,4 @@
-# Sample Hardhat Project
+# Wizschool Contracts
 
 This project covers the required smart contracts for the Wizschool solution template. It comes with the required smart contracts, tests for the contracts,  Hardhat Ignition modules that deploys the contracts and custom hardhat tasks and util functions. 
 
