@@ -1,18 +1,30 @@
 # Wizschool Contracts
+This project is part of the Wizschool solution template (for Immutable zkEVM) covering a dApp for minting Non Fungible Token, backed up by a custom API backend and set of smart contracts.
 
-This project covers the required smart contracts for the Wizschool solution template. It comes with the required smart contracts, tests for the contracts,  Hardhat Ignition modules that deploys the contracts and custom hardhat tasks and util functions. 
+1. [Wizschool smart contracts](https://github.com/ajaybha/wizschool-contracts) ** This project ** 
+2. [Wizschool API backend](https://github.com/ajaybha/wizschool-api) 
+3. [Wizschool web application](https://github.com/ajaybha/wizschool-web) 
 
-Solidity, chai/mocha and hardhat familiarity is required. 
+This project covers the required smart contracts for the Wizschool solution template. It has the required smart contracts, tests for the contracts,  Hardhat Ignition modules that deploys the contracts and custom hardhat tasks and util functions. 
+
+Before building this project locally, you will need to have `nodejs` and a package manager `npm`, `pnpm` or `yarn` installed. The deployment instructions below have been tested with WSL2 on windows.
+
+Familiarity with `Solidity`, `chai/mocha` and `hardhat` is required. 
 
 # Initialize the project
+After cloning the repository locally, navigate to the project root directory and execute the following commands from a shell or a terminal window within VSCode. 
 
-After cloning the repository locally, please ensure that you have nodejs and npm installed on your system. Follow the instructions below to get the project ready
+> Note: The project is built using node.js along with `hardhat`.
 
-Install the project dependencies by running the 'npm instal" command on the project root.
+Follow the instructions below to get the project ready
+
+Install the project dependencies by running the 'npm install" command on the project root.
 ``` shell
 npm install
 ```
-The project is built using hardhat template. After installing all the dependencies, please have a look at the environment configuration and the hardhat.config and make any adjustments neccessary for your environment. 
+After installing all the dependencies, please have a look at the environment configuration (`.env.sample` and the `hardhat.config` and make any adjustments neccessary for your environment. 
+
+You can copy or rename the `.env.sample` to `.env` and work on collecting neccessary details to update the key values. Most of these are required post deployment to run the tests and/or hardhat tasks to interact with the deployed contracts. 
 
 ## TODO 
 TODO : Explain the minimum neccessary config and environment entries to be updated.
